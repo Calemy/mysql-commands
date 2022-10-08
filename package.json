@@ -1,0 +1,15 @@
+{
+    "name": "mysql-commands",
+    "version": "1.0.2",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "github" :"https://github.com/calemy/mysql-commands",
+    "author": "Lemres",
+    "license": "ISC",
+    "types": "./index.d.ts"
+  }
+  
