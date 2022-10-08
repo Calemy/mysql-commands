@@ -27,17 +27,17 @@ You can select single or multiple records from the database with ease!
 
 ```js
 
-/* Optional
+/* 
+    Optional
     values: the values you want to recieve - default: *
     condition: what condition has to be applied to return the result
     sort: what you want to sort by
     limit: how many rows to return - default: Infinite (only available on multi search)
     offset: offset result by x amount - default: 0 (only available on multi search)
-}
 */
 
 const values = ["id", "username"]
-const condition = ["id = 1"]
+const condition = "id = 1"
 const sort = ["id DESC"]
 
 //Search for multiple records, sort by id decreasing and limit results to 50
