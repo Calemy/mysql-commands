@@ -44,7 +44,7 @@ const sort = ["id DESC"]
 const users = await database.select("users", { values, sort, limit: 50 })
 
 //Search for single record
-const user = await database.select("users", { values, condition })
+const user = await database.selectOne("users", { values, condition })
 ```
 
 #### Insert
@@ -65,7 +65,7 @@ for(let j = 0; j < keys.length; j++) {
     values[j] = user[keys[j]]
 }
 
-database.insert("users", keys, values)
+await database.insert("users", keys, values)
 ```
 
 #### Update
@@ -87,7 +87,7 @@ for(let j = 0; j < keys.length; j++) {
     values[j] = user[keys[j]]
 }
 
-database.update("users", keys, values, "id = 1")
+await database.update("users", keys, values, "id = 1")
 
 ```
 
@@ -97,7 +97,7 @@ If you can't find the function that you require or a bug then feel free to use y
 And also try to add the issue to the Repository so it can get into this module.
 
 ```js
-database.request(`your own query`)
+await database.request(`your own query`)
 ```
 
 #### Contribute

@@ -6,5 +6,5 @@ export = class mysqlCommands {
     async insert(table: string, fields: Array<string>, values: Array<string | number>): void
     async update(table: string, fields: Array<string>, values: Array<string | number>, condition?: string): void
     //TODO:
-    //* async join(from: string, to: string, join: Array<string>, opts?: { condition?: string, sort?: Array<string>, limit?: number, offset?: number}): Promise<Array<Object>>
+    //* async join(from: string, join: string, on: Array<string>, opts?: { values?: Array<string>, condition?: string, sort?: Array<string>, limit?: number, offset?: number}): Promise<Array<Object>>
 }
