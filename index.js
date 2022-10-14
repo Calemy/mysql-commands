@@ -34,40 +34,45 @@ module.exports = class mysqlCommands {
         `)
     }
 
-    async insert(table, fields, values){
-        if(fields.length != values.length) throw new Error("Fields and values must be the same length")
+    async insert(table, {fields, values, object, result = false}){
+        let f = object ? object.keys() : fields
+        let v = object ? object.values() : values
+
+        if(f.length != v.length) throw new Error("Fields and values must be the same length")
         let str = "";
     
-        for(var i = 0; i < values.length; i++){
-            if(typeof(values[i]) == 'string'){
-                str += `"${values[i]}"`
+        for(var i = 0; i < v.length; i++){
+            if(typeof(v[i]) == 'string'){
+                str += `"${v[i]}"`
             } else {
-                str += values[i]
+                str += v[i]
             }
     
-            if(i < (values.length -1)){
+            if(i < (v.length -1)){
                 str += ", "
             } 
         }
     
-        return await this.request(`INSERT INTO ${table} (${fields.join(', ')}) VALUES (${str})`)
+        return await this.request(`INSERT INTO ${table} (${f.join(', ')}) VALUES (${str})`)
     }
 
-    async update(table, fields, values, { condition }){
-        if(fields.length != values.length) throw new Error("Fields and values must be the same length")
-        let str = "";
+    async update(table, { fields, values, object, condition }){
+        let f = object ? object.keys() : fields
+        let v = object ? object.values() : values
 
-        for(var i = 0; i < values.length; i++){
-            str += `${fields[i]} = `
-            if(typeof(values[i]) == 'string'){
-                str += `"${values[i]}"`
+        if(f.length != v.length) throw new Error("Fields and values must be the same length")
+        let str = "";
+    
+        for(var i = 0; i < v.length; i++){
+            if(typeof(v[i]) == 'string'){
+                str += `"${v[i]}"`
             } else {
-                str += values[i]
+                str += v[i]
             }
     
-            if(i < (values.length -1)){
+            if(i < (v.length -1)){
                 str += ", "
-            }
+            } 
         }
 
         return await this.request(`UPDATE ${table} SET ${str} ${condition.length > 0 ? "WHERE " + where : ""}`)

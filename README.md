@@ -58,14 +58,7 @@ const user = {
     rank: "Admin"
 }
 
-const keys = Object.keys(user)
-const values = []
-
-for(let j = 0; j < keys.length; j++) {
-    values[j] = user[keys[j]]
-}
-
-await database.insert("users", keys, values)
+await database.insert("users", { object: user })
 ```
 
 #### Update
@@ -80,14 +73,7 @@ const user = {
     rank: "Admin"
 }
 
-const keys = Object.keys(user)
-const values = []
-
-for(let j = 0; j < keys.length; j++) {
-    values[j] = user[keys[j]]
-}
-
-await database.update("users", keys, values, "id = 1")
+await database.update("users", { object: user, condition: "id = 1"})
 
 ```
 

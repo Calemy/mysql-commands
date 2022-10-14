@@ -1,15 +1,22 @@
 {
     "name": "mysql-commands",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "description": "",
     "main": "index.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
-    "github" :"https://github.com/calemy/mysql-commands",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/calemy/mysql-commands.git"
+    },
+    "keywords": ["mysql", "commands", "wrapper"],
     "author": "Lemres",
     "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/calemy/mysql-commands/issues"
+    },
+    "homepage": "https://github.com/calemy/mysql-commands#readme",
     "types": "./index.d.ts"
   }
   
