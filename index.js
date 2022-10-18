@@ -42,7 +42,7 @@ class connectionCommands {
         `)
     }
 
-    async insert(table, { fields, values, object, result = false }){
+    async insert(table, { fields, values, object }){
         let f = object ? Object.keys(object) : fields
         let v = object ? Object.values(object) : values
 
@@ -67,8 +67,10 @@ class connectionCommands {
     }
 
     async update(table, { fields, values, object, condition }){
-        let f = object ? object.keys() : fields
-        let v = object ? object.values() : values
+        let f = object ? Object.keys(object) : fields
+        let v = object ? Object.values(object) : values
+
+        if(!f || !v) throw new Error("Fields can't be empty")
 
         if(f.length != v.length) throw new Error("Fields and values must be the same length")
         let str = "";
@@ -85,7 +87,7 @@ class connectionCommands {
             } 
         }
 
-        return await this.request(`UPDATE ${table} SET ${str} ${condition.length > 0 ? "WHERE " + where : ""}`)
+        return await this.request(`UPDATE ${table} SET ${str} ${condition?.length > 0 ? "WHERE " + condition : ""}`)
     }
 
 }
