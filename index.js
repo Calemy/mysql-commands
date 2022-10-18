@@ -27,22 +27,22 @@ class connectionCommands {
     async select(table, { values = ["*"], condition, sort, limit = 0, offset = 0 }){
         return this.request(`
         SELECT ${values.join(', ')} FROM ${table}
-        ${condition.length > 0 ? "WHERE " + condition : ""}
-        ${sort.length > 0 ? " ORDER BY " + sort.join(", ") : ""}
+        ${condition?.length > 0 ? "WHERE " + condition : ""}
+        ${sort?.length > 0 ? " ORDER BY " + sort.join(", ") : ""}
         ${limit > 0 ? " LIMIT " + limit : ""}
         ${offset > 0 ? " OFFSET " + offset : ""}
         `)
     }
 
-    async selectOne(table, { condition, sort }){
+    async selectOne(table, { values = ["*"], condition, sort }){
         return this.requestOne(`
         SELECT ${values.join(', ')} FROM ${table}
-        ${condition.length > 0 ? "WHERE " + condition : ""}
-        ${sort.length > 0 ? " ORDER BY " + sort.join(", ") : ""}
+        ${condition?.length > 0 ? "WHERE " + condition : ""}
+        ${sort?.length > 0 ? " ORDER BY " + sort.join(", ") : ""}
         `)
     }
 
-    async insert(table, { fields, values, object }){
+    async insert(table, { fields, values, object, result = false }){
         let f = object ? Object.keys(object) : fields
         let v = object ? Object.values(object) : values
 
