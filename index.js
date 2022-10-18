@@ -1,22 +1,30 @@
-module.exports = class mysqlCommands {
-    constructor(connection){
-        try {
-            connection.awaitQuery(`SHOW DATABASES;`)
-            this.con = connection
-        } catch {
-            throw new Error("Wrong module. Please use mysql-await in order to use these utilities")
-        }
+const mysql = require("mysql-await")
+
+class connectionCommands {
+    constructor(){
+        this.connection = mysql.createConnection(...arguments);
+        this.config = this.connection.config;
+    }
+
+    connect(){
+        this.connection = new connectionCommands(this.config).connection
     }
 
     async request(query){
-        return await con.awaitQuery(query)
+        this.connect()
+        const request = this.connection.awaitQuery(query)
+        await this.connection.awaitEnd()
+        return request
     }
 
     async requestOne(query){
-        return (await con.awaitQuery(query))[0]
+        this.connect()
+        const request = (await this.connection.awaitQuery(query))[0]
+        await this.connection.awaitEnd()
+        return request
     }
 
-    async select(table, {values = ["*"], condition, sort, limit = 0, offset = 0}){
+    async select(table, { values = ["*"], condition, sort, limit = 0, offset = 0 }){
         return this.request(`
         SELECT ${values.join(', ')} FROM ${table}
         ${condition.length > 0 ? "WHERE " + condition : ""}
@@ -26,7 +34,7 @@ module.exports = class mysqlCommands {
         `)
     }
 
-    async selectOne(table, {condition, sort}){
+    async selectOne(table, { condition, sort }){
         return this.requestOne(`
         SELECT ${values.join(', ')} FROM ${table}
         ${condition.length > 0 ? "WHERE " + condition : ""}
@@ -34,9 +42,11 @@ module.exports = class mysqlCommands {
         `)
     }
 
-    async insert(table, {fields, values, object, result = false}){
-        let f = object ? object.keys() : fields
-        let v = object ? object.values() : values
+    async insert(table, { fields, values, object }){
+        let f = object ? Object.keys(object) : fields
+        let v = object ? Object.values(object) : values
+
+        if(!f || !v) throw new Error("Fields can't be empty")
 
         if(f.length != v.length) throw new Error("Fields and values must be the same length")
         let str = "";
@@ -76,5 +86,12 @@ module.exports = class mysqlCommands {
         }
 
         return await this.request(`UPDATE ${table} SET ${str} ${condition.length > 0 ? "WHERE " + where : ""}`)
+    }
+
+}
+
+module.exports = new class mysqlCommands {
+    createConnection(){
+        return new connectionCommands(...arguments);
     }
 }
