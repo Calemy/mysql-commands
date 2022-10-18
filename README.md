@@ -1,5 +1,5 @@
 # mysql-commands
-a promised based mysql wrapper in nodejs - only compatible with mysql-await!
+a promised based mysql wrapper in nodejs!
 <br>
 some updates still expected
 
@@ -8,17 +8,14 @@ some updates still expected
 #### Create the wrapper
 
 ```js
-const mysql = require('mysql-await')
-const mysqlCommands = require('mysql-commands')
+const mysql = require('mysql-commands')
 
-const connection = mysql.createConnection({
+const database = mysql.createConnection({
     host: host,
     user: username,
     password: password,
     database: db
 })
-
-const database = new mysqlCommands(connection)
 ```
 
 #### Select
@@ -79,6 +76,8 @@ await database.update("users", { object: user, condition: "id = 1"})
 
 #### Tips
 If you can't find the function that you require or a bug then feel free to use your own query with the request function.
+<br>
+You don't need to worry about database timeouts since this module does handle connections automatically for you!
 <br>
 And also try to add the issue to the Repository so it can get into this module.
 
