@@ -47,15 +47,23 @@ const user = await database.selectOne("users", { values, condition })
 #### Insert
 
 You can also insert records with pretty much no effort!
+<br>
+There is also an updateOnDuplicate option that can be selected.
 
 ```js
-const user = {
+let user = {
     id: 1,
     username: "Nanoo",
     rank: "Admin"
 }
 
 await database.insert("users", { object: user })
+
+//Update on duplicate
+
+user.username = "Lemres"
+
+await database.insert("users", { object: user, updateOnDuplicate: true})
 ```
 
 #### Update
@@ -64,9 +72,9 @@ Even updating does not require a lot of work!
 
 ```js
 
-const user = {
+let user = {
     id: 1,
-    username: "Lemres",
+    username: "Nanoo",
     rank: "Admin"
 }
 

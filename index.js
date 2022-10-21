@@ -42,7 +42,7 @@ class connectionCommands {
         `)
     }
 
-    async insert(table, { fields, values, object }){
+    async insert(table, { fields, values, object, updateOnDuplicate = false }){
         let f = object ? Object.keys(object) : fields
         let v = object ? Object.values(object) : values
 
@@ -50,20 +50,25 @@ class connectionCommands {
 
         if(f.length != v.length) throw new Error("Fields and values must be the same length")
         let str = "";
+        let updateStr = "";
     
         for(var i = 0; i < v.length; i++){
+            updateStr += `${f[i]} = `
             if(typeof(v[i]) == 'string'){
                 str += `"${v[i]}"`
+                updateStr += `"${v[i]}"`
             } else {
                 str += v[i]
+                updateStr += v[i]
             }
     
             if(i < (v.length -1)){
                 str += ", "
+                updateStr += ", "
             } 
         }
     
-        return await this.request(`INSERT INTO ${table} (${f.join(', ')}) VALUES (${str})`)
+        return await this.request(`INSERT INTO ${table} (${f.join(', ')}) VALUES (${str})${updateOnDuplicate ? " ON DUPLICATE KEY UPDATE " + updateStr : ""}`)
     }
 
     async update(table, { fields, values, object, condition }){
@@ -76,6 +81,7 @@ class connectionCommands {
         let str = "";
     
         for(var i = 0; i < v.length; i++){
+            str += `${f[i]} = `
             if(typeof(v[i]) == 'string'){
                 str += `"${v[i]}"`
             } else {
