@@ -8,7 +8,7 @@ class connectionCommands {
         this.requestOne = async (query) => (await this.connection.awaitQuery(query))[0]
         this.select = async (table, { values = ["*"], condition, sort, limit = 0, offset = 0 }) => await this.request(`SELECT ${values.join(', ')} FROM ${table} ${condition?.length > 0 ? "WHERE " + condition : ""}${sort?.length > 0 ? " ORDER BY " + sort.join(", ") : ""}${limit > 0 ? " LIMIT " + limit : ""}${offset > 0 ? " OFFSET " + offset : ""}`)
         this.selectOne = async (table, { values = ["*"], condition, sort, prepared = [] }) => await this.requestOne(`SELECT ${values.join(', ')} FROM ${table} ${condition?.length > 0 ? "WHERE " + condition : ""}${sort?.length > 0 ? " ORDER BY " + sort.join(", ") : ""}`)
-        this.count = async (table) => (await this.requestOne(`SELECT COUNT(*) count FROM ${table}`))?.count
+        this.count = async (table, { condition }) => (await this.requestOne(`SELECT COUNT(1) count FROM ${table} ${condition?.length > 0 ? "WHERE " + condition : ""}`))?.count
     }
 
     async insert(table, { fields, values, object, updateOnDuplicate = false }){
