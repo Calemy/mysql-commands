@@ -65,6 +65,26 @@ class connectionCommands {
         return await this.request(`UPDATE ${table} SET ${str} ${condition?.length > 0 ? "WHERE " + condition : ""}`)
     }
 
+    async create(table, { fields, types, object, ifNotExists = true, engine = "INNODB" }){
+        let f = object ? Object.keys(object) : fields
+        let v = object ? Object.values(object) : types
+
+        if(!f || !v) throw new Error("Fields can't be empty")
+
+        if(f.length != v.length) throw new Error("Fields and values must be the same length")
+        let str = "";
+    
+        for(var i = 0; i < v.length; i++){
+            str += `${f[i]} ${v[i]}`
+    
+            if(i < (v.length -1)){
+                str += ", "
+            } 
+        }
+
+        this.request(`CREATE TABLE${ifNotExists ? " IF NOT EXISTS" : ""} ${table} (${str}) ENGINE=${engine};`)
+    }
+
     close() {
         return new Promise((resolve, reject) => {
           this.connection.end((err) => {
