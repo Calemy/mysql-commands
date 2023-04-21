@@ -1,24 +1,22 @@
-class mysqlCommands {
+export declare interface mysqlCommands {
     createConnection({ host: string, user: string, password: string, database: string }): connectionCommands
     createPool({ host: string, user: string, password: string, database: string }): poolCommands
 }
 
-class connectionCommands {
-    async request(query: string): Promise<Array<object>>
-    async select(table: string, opts?: { values?: Array<string>, condition?: string, sort?: Array<string>, limit?: number, offset?: number }): Promise<Array<object>>
-    async selectOne(table: string, opts?: { values?: Array<String>, condition?: string, sort?: Array<string> }): Promise <object | undefined>
-    async insert(table: string, opts: { fields?: Array<string>, values?: Array<string | number>, object?: object, updateOnDuplicate?: boolean }): Promise<object>
-    async update(table: string, opts: { fields?: Array<string>, values?: Array<string | number>, object?: object, condition?: string }): Promise<object>
-    async count(table: string, opts?: { condition?: string }): Promise<number | undefined>
-    async create(table: string, opts?: { fields?: Array<string>, types?: Array<types>, object?: { [key: string]: types }, ifNotExists?: boolean, engine: string }): Promise<unknown>
+declare class connectionCommands {
+    request(query: string): Promise<Array<object>>
+    select(table: string, opts?: { values?: Array<string>, condition?: string, sort?: Array<string>, limit?: number, offset?: number }): Promise<Array<object>>
+    selectOne(table: string, opts?: { values?: Array<String>, condition?: string, sort?: Array<string> }): Promise <object | undefined>
+    insert(table: string, opts: { fields?: Array<string>, values?: Array<string | number>, object?: object, updateOnDuplicate?: boolean }): Promise<object>
+    update(table: string, opts: { fields?: Array<string>, values?: Array<string | number>, object?: object, condition?: string }): Promise<object>
+    count(table: string, opts?: { condition?: string }): Promise<number | undefined>
+    create(table: string, opts?: { fields?: Array<string>, types?: Array<types>, object?: { [key: string]: types }, ifNotExists?: boolean, engine: string }): Promise<unknown>
     close(): void
     //TODO:
     //* async join(from: string, join: string, on: Array<string>, opts?: { values?: Array<string>, condition?: string, sort?: Array<string>, limit?: number, offset?: number}): Promise<Array<object>>
 }
 
-class poolCommands extends connectionCommands {
-
-}
+declare class poolCommands extends connectionCommands {}
 
 type types =
 "CHAR(size)" | "VARCHAR(size)" | "BINARY(size)" | "VARBINARY(size)" |
@@ -31,4 +29,4 @@ type types =
 "DOUBLE PRECISION(size, d)" | "DECIMAL(size, d)" | "DEC(size, d)" |
 "DATE" | "DATETIME(fsp)" | "TIMESTAMP(fsp)" | "TIME(fsp)" | "YEAR"
 
-export = new mysqlCommands
+export default {} as mysqlCommands
