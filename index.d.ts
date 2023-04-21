@@ -29,4 +29,5 @@ type types =
 "DOUBLE PRECISION(size, d)" | "DECIMAL(size, d)" | "DEC(size, d)" |
 "DATE" | "DATETIME(fsp)" | "TIMESTAMP(fsp)" | "TIME(fsp)" | "YEAR"
 
-export default {} as mysqlCommands
+// export default {} as mysqlCommands
+export = {} as mysqlCommands;
